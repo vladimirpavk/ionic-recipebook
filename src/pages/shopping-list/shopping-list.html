@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Shopping List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="shoppingItemForm" (ngSubmit)="formSubmit()">
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" formControlName="ingridientName"></ion-input>            
+    </ion-item>  
+    <ion-label
+      text-center
+      color="danger"
+      *ngIf="!shoppingItemForm.controls['ingridientName'].pristine && shoppingItemForm.controls['ingridientName'].invalid"
+    >
+      Name is not valid...
+    </ion-label>
+    <ion-item>
+      <ion-label floating>Amount</ion-label>
+      <ion-input type="number" formControlName="ingridientAmount"></ion-input>
+    </ion-item>  
+    <ion-label
+      text-center
+      color="danger"
+      *ngIf="!shoppingItemForm.controls['ingridientAmount'].pristine && shoppingItemForm.controls['ingridientAmount'].invalid"
+    >
+      Amount is not valid
+    </ion-label>
+  
+    <button ion-button block color="primary" type="submit" [disabled]="!shoppingItemForm.valid">Add</button>   
+  </form>
+
+  <ion-list>
+    <ion-item *ngFor="let ingridient of shoppingListService.getIngridientsToBuy()">
+      {{ingridient.name}} ({{ingridient.amount}})
+    </ion-item>
+  </ion-list>
+</ion-content>
