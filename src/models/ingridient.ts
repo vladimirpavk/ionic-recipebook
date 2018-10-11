@@ -1,4 +1,3 @@
-export interface Ingridient{
-    name:string,
-    amount:number
+export class Ingridient{
+    constructor(public name:string, public amount:number){}
 }

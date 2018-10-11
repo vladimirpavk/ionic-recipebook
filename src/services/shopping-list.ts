@@ -16,6 +16,8 @@ export class ShoppingListService{
             }
         );
 
+        console.log(ingridient);
+
         let ingridientIndex=this.ingridientsToBuy.indexOf(element);      
 
        if(ingridientIndex!=-1){

@@ -32,12 +32,16 @@ export class ShoppingListPage implements OnInit {
 
   private formSubmit(){
     this.shoppingListService.pushIngridient(
-      {
-        name: this.shoppingItemForm.value['ingridientName'],
-        amount: Number(this.shoppingItemForm.value['ingridientAmount'])
-      }
+      new Ingridient(
+        this.shoppingItemForm.value['ingridientName'],
+        +this.shoppingItemForm.value['ingridientAmount']
+      )     
     );
     this.shoppingItemForm.reset();
+  }
+
+  private onTrashIngridientClicked(ingridient:Ingridient):void{
+    this.shoppingListService.pullIngridient(ingridient);
   }
 
 }
