@@ -37,12 +37,12 @@
                 <ion-label floating>Difficulty</ion-label>
                 <ion-select formControlName="difficulty">
                  <div *ngFor="let option of selectedOptions; let i=index">
-                    <ion-option [value]="option" [selected]="i==0">{{option}}</ion-option>
+                    <ion-option [value]="option">{{option}}</ion-option>
                  </div>
                 </ion-select>
             </ion-item>
-
-           <button ion-button block color="primary" type="submit" [disabled]="!recipeForm.valid">Add</button>         
-        </ion-list>
+          </ion-list> 
+          <button ion-button block clear type="button" (click)="onManageIngridients()">Manage Ingridients</button>
+          <button ion-button block color="primary" type="submit" [disabled]="!recipeForm.valid">New Recipe</button>                 
       </form>
 </ion-content>
