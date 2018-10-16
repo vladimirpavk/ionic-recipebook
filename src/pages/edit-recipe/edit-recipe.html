@@ -41,7 +41,38 @@
                  </div>
                 </ion-select>
             </ion-item>
-          </ion-list> 
+          </ion-list>   
+    
+              <ion-list formArrayName="ingridients">               
+                <ion-item-sliding
+                  *ngFor="let igControl of recipeForm.get('ingridients').controls; let i=index"
+                  [formGroupName]="i">
+                  <ion-item>                
+                    <ion-grid item-content>
+                      <ion-row>
+                        <ion-col col-auto>
+                          <ion-label color="primary">Ingridient</ion-label>
+                        </ion-col>
+                        <ion-col>
+                          <ion-input type="text" formControlName="ingridient"></ion-input>
+                        </ion-col>
+                        <ion-col col-auto>
+                          <ion-label color="primary">Qty</ion-label>
+                        </ion-col>
+                        <ion-col>
+                          <ion-input type="number" formControlName="qty"></ion-input>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-item>
+                  <ion-item-options>
+                    <button ion-button color="danger">
+                      <ion-icon name="trash" (click)="onTrashIngridientClicked(i)"></ion-icon>
+                    </button>
+                  </ion-item-options>                  
+                </ion-item-sliding>
+              </ion-list>              
+
           <button ion-button block clear type="button" (click)="onManageIngridients()">Manage Ingridients</button>
           <button ion-button block color="primary" type="submit" [disabled]="!recipeForm.valid">New Recipe</button>                 
       </form>
