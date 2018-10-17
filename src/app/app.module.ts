@@ -13,6 +13,7 @@ import { RecipesPage } from '../pages/recipes/recipes';
 //services
 import { ShoppingListService } from '../services/shopping-list';
 import { EditRecipePage } from '../pages/edit-recipe/edit-recipe';
+import { RecipeService } from '../services/recipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EditRecipePage } from '../pages/edit-recipe/edit-recipe';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ShoppingListService
+    ShoppingListService,
+    RecipeService
   ]
 })
 export class AppModule {}

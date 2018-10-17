@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { RecipeService } from '../../services/recipe';
+import { Recipe } from '../../models/recipe';
+import { ShoppingListService } from '../../services/shopping-list';
+import { Ingridient } from '../../models/ingridient';
 
 @IonicPage()
 @Component({
@@ -18,22 +22,55 @@ export class EditRecipePage implements OnInit {
     public navCtrl: NavController,
     public navParams: NavParams,
     private actionsheetCtrl: ActionSheetController,
-    private alertCtrl:AlertController
+    private alertCtrl:AlertController,
+    private recipeService: RecipeService,
+    private shoppingListService: ShoppingListService
   ) {
   }
 
   ngOnInit(){
-    //console.log(this.navParams.data);
+    this.mode = this.navParams.data['mode'];
+
+    let titleTemp:string = null;
+    let descriptionTemp:string = null;
+    let difficultyTemp:string = 'Easy';
+    let ingridientsTemp = new FormArray([]);
+
+    if(this.mode==='New'){
+
+    }
+    else
+    {
+      //this.mode==='Edit'
+      //this.navParams.data['recipe']:Recipe
+      let recipeTemp:Recipe = this.navParams.data['recipe'];
+      titleTemp=recipeTemp.title;
+      descriptionTemp=recipeTemp.description;
+      difficultyTemp=recipeTemp.difficulty;
+      
+      if(recipeTemp.ingridients){
+        for(let ing of recipeTemp.ingridients){
+          ingridientsTemp.push(
+            new FormGroup({
+              'ingridient': new FormControl(ing.name, Validators.required) ,
+              'qty': new FormControl(ing.amount, Validators.required) 
+            })
+          );
+        }
+      }
+    }
+
     this.recipeForm = new FormGroup({
-      'title': new FormControl(null, Validators.compose([Validators.required, Validators.minLength(3)])),
-      'description': new FormControl(null, Validators.compose([Validators.required, Validators.minLength(3)])),
-      'difficulty': new FormControl('Easy', Validators.compose([Validators.required])),
-      'ingridients': new FormArray([])
+      'title': new FormControl(titleTemp, Validators.compose([Validators.required, Validators.minLength(3)])),
+      'description': new FormControl(descriptionTemp, Validators.compose([Validators.required, Validators.minLength(3)])),
+      'difficulty': new FormControl(difficultyTemp, Validators.compose([Validators.required])),
+      'ingridients': ingridientsTemp
     });   
   }
   
   private formSubmit(){
-    console.log(this.recipeForm.value);
+    this.recipeService.setRecipe(this.recipeForm.value);
+    this.recipeForm.reset();
   }
 
   private presentAlert(){
@@ -56,16 +93,13 @@ export class EditRecipePage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: (data)=>{
-            console.log('Cancel clicked');
+            
           }
         },
         {
           text: 'Add',
-          handler: (data)=>{
-            console.log('Add clicked');
-            console.log(data);
-            if(data['ingridient'].length!=0 && data['qty'].length!=0){
-              console.log('in if');
+          handler: (data)=>{         
+            if(data['ingridient'].length!=0 && data['qty'].length!=0){              
               (<FormArray>this.recipeForm.get('ingridients')).push(
                 new FormGroup({
                   'ingridient':new FormControl(data['ingridient']),
@@ -90,10 +124,27 @@ export class EditRecipePage implements OnInit {
           }
         },
         {
+          text:'Add to Shopping list',
+          handler:()=>{
+            //this.shoppingListService.pushIngridient
+            let ingFormArray:FormArray = <FormArray>(this.recipeForm.get('ingridients'));
+            if(ingFormArray){
+              ingFormArray.controls.forEach(
+                (x)=>{
+                  this.shoppingListService.pushIngridient(new Ingridient(
+                    x.value['ingridient'],
+                    x.value['qty']
+                  ))
+                }
+              )
+            }
+          }
+        },
+        {
           text: 'Remove all Ingridients',
           role: 'destructive',
           handler: ()=>{
-
+            (<FormArray>this.recipeForm.get('ingridients')).controls = [];
           }
         },
         {
@@ -108,7 +159,7 @@ export class EditRecipePage implements OnInit {
   }
 
   private onTrashIngridientClicked(formControlIndex:number):void{
-    console.log(formControlIndex);
+    (<FormArray>this.recipeForm.get('ingridients')).removeAt(formControlIndex);
   }
 
 }

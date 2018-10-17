@@ -14,9 +14,7 @@ export class ShoppingListService{
                 if(data.name==ingridient.name) return true;
                 else return false;
             }
-        );
-
-        console.log(ingridient);
+        );      
 
         let ingridientIndex=this.ingridientsToBuy.indexOf(element);      
 

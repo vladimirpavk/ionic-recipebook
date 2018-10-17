@@ -52,4 +52,8 @@ export class RecipeService{
     public setRecipe(recipe:Recipe):void{
         this.Recipes.push(recipe);
     }
+
+    public clearRecipe(index:number):void{
+        this.Recipes.splice(index, 1);
+    }
 }

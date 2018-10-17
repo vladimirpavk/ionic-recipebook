@@ -13,5 +13,17 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item-sliding *ngFor="let recipe of recipeService.getRecipes(); let i=index">
+      <ion-item (click)="onRecipeItemClicked(recipe)">
+          <h3>{{recipe.title}}</h3>
+          <p>{{recipe.difficulty}}</p>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="danger">
+            <ion-icon name="trash" (click)="onTrashRecipeClicked(i)"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>    
+  </ion-list>
 </ion-content>
