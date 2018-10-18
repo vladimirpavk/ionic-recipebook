@@ -1,15 +1,20 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="onNewrecipe()">
-        <ion-icon name="md-add">          
-        </ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>Recipes</ion-title>
-  </ion-navbar>
-
+  
+        <ion-buttons start>
+          <button ion-button item-left icon-only menuToggle>
+              <ion-icon name="menu"></ion-icon>
+          </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="onNewrecipe()">
+              <ion-icon name="md-add">          
+              </ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Recipes</ion-title>             
+      
+      </ion-navbar>
 </ion-header>
 
 <ion-content padding>

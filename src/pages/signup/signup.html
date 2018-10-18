@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+    
+          <ion-buttons start>
+            <button ion-button item-left icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+          </ion-buttons>          
+          <ion-title>Sign Up</ion-title>             
+        
+        </ion-navbar>
+  </ion-header>
+
+
+<ion-content padding>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <ion-list>
+      <ion-item>
+        <ion-label fixed>Mail</ion-label>
+        <ion-input type="email" email required name="email" ngModel></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" [minlength]="3" required name="password" ngModel></ion-input>
+      </ion-item>
+    </ion-list>
+    <button ion-button block type="submit" [disabled]="!form.valid">Sign Up</button>
+  </form>
+</ion-content>

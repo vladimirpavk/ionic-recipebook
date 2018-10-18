@@ -5,15 +5,19 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+//pages
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { RecipesPage } from '../pages/recipes/recipes';
+import { EditRecipePage } from '../pages/edit-recipe/edit-recipe';
+import { SignupPage } from '../pages/signup/signup';
+import { SigninPage } from '../pages/signin/signin';
 
 //services
 import { ShoppingListService } from '../services/shopping-list';
-import { EditRecipePage } from '../pages/edit-recipe/edit-recipe';
 import { RecipeService } from '../services/recipe';
+import { AuthService } from '../services/auth';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import { RecipeService } from '../services/recipe';
     TabsPage,
     ShoppingListPage,
     RecipesPage,
-    EditRecipePage
+    EditRecipePage,
+    SignupPage,
+    SigninPage
   ],
   imports: [
     BrowserModule,
@@ -34,14 +40,17 @@ import { RecipeService } from '../services/recipe';
     TabsPage,
     ShoppingListPage,
     RecipesPage,
-    EditRecipePage
+    EditRecipePage,
+    SignupPage,
+    SigninPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ShoppingListService,
-    RecipeService
+    RecipeService,
+    AuthService
   ]
 })
 export class AppModule {}

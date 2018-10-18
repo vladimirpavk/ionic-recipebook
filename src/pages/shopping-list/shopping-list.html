@@ -1,11 +1,15 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Shopping List</ion-title>
+    <ion-grid>
+      <ion-row>
+        <button ion-button menuToggle>
+          <ion-icon name="menu" item-left></ion-icon>
+        </button>
+        <ion-title item-right>Shopping List</ion-title>
+      </ion-row>
+    </ion-grid>    
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <form [formGroup]="shoppingItemForm" (ngSubmit)="formSubmit()">
