@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -9,12 +9,16 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SignupPage } from '../pages/signup/signup';
 import { SigninPage } from '../pages/signin/signin';
 import { AuthService } from '../services/auth';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit, OnDestroy{
   rootPage:any = TabsPage;
+
+  private authServiceSubscription:Subscription;
+  private isAuth:boolean;
 
   constructor(
     platform: Platform,
@@ -39,6 +43,25 @@ export class MyApp {
     });
   }
 
+  ngOnInit(){
+    this.authServiceSubscription = this.authService.isAuthChanged.subscribe(
+      (isAuth:boolean)=>{
+        if(isAuth){
+          this.rootPage = TabsPage;
+          this.isAuth = isAuth;
+        }
+        else{
+          this.rootPage = SigninPage;
+          this.isAuth = isAuth;
+        }
+      }
+    )
+  }
+
+  ngOnDestroy(){
+    this.authServiceSubscription.unsubscribe();
+  }
+
   private onSignUp():void{
     this.rootPage = SignupPage;
     this.menuCtrl.close();
@@ -51,6 +74,7 @@ export class MyApp {
   
   private onLogout():void{
     this.authService.logout();
+    this.menuCtrl.close();
   }
 
   private onRecipeBook():void{
